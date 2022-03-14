@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'detail_page.dart';
 
-import 'model/player.dart';
+import 'model/menu.dart';
 
 class HomePage extends StatefulWidget{
   final String username;
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage>{
     return Scaffold(
 
       appBar: AppBar(
-        title: const Text("MCU CAST"),
+        title: const Text("MALABAR"),
         actions: <Widget>[
 
           IconButton(icon: new Icon(Icons.logout, color: Colors.white), onPressed: () {
@@ -48,20 +48,20 @@ class _HomePageState extends State<HomePage>{
 
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        tooltip: 'KERANJANG',
+        child: const Icon(Icons.add_shopping_cart),
       ),
     );
   }
 
   Widget _createListCard() {
-    var dataMovie = getData;
+    var dataMenu = getAllMenu();
 
     return ListView.separated(
       itemBuilder: (context, index) {
-        return _createCard(dataMovie[index], context);
+        return _createCard(dataMenu[index], context);
       },
-      itemCount: dataMovie.length,
+      itemCount: dataMenu.length,
       separatorBuilder: (context, index) {
         return Container(
           color: Colors.grey,
@@ -72,12 +72,12 @@ class _HomePageState extends State<HomePage>{
     );
   }
 
-  Widget _createCard(Movie data, BuildContext context) {
+  Widget _createCard(Menu data, BuildContext context) {
     return Card(
       child: InkWell(
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return DetailPage(image: data.image, name: data.name, price: data.price);
+            return DetailPage(image: data.image, name: data.name, desc: data.desc, price: data.price, category: data.category, ratings: data.ratings, reviewer: data.reviewer, sold: data.sold,);
           }));
         },
         child: Container(
@@ -96,6 +96,14 @@ class _HomePageState extends State<HomePage>{
                     ),
                     child: Text(data.name)),
               ),
+              Expanded(
+                  flex :1,
+                  child: Container(
+                      padding: EdgeInsets.fromLTRB(0,0,20,0),
+                      height:50,
+                      child: const Icon(Icons.add_box_outlined),
+                     )
+              )
             ],
           ),
         ),

@@ -2,15 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class DetailPage extends StatelessWidget {
-  final String image;
   final String name;
+  final String image;
+  final String desc;
   final int price;
+  final String category;
+  final double ratings;
+  final int reviewer;
+  final int sold;
 
   const DetailPage({
     Key? key,
-    required this.image,
     required this.name,
-    required this.price
+    required this.image,
+    required this.desc,
+    required this.price,
+    required this.category,
+    required this.ratings,
+    required this.reviewer,
+    required this.sold,
+
     //this.price = 0,
   }) : super(key: key);
 
@@ -28,7 +39,13 @@ class DetailPage extends StatelessWidget {
               SizedBox(height: 16,),
               Text(name, style: TextStyle(fontWeight: FontWeight.bold),),
               SizedBox(height: 16,),
-              Text("${price}"),
+              Text(desc),
+              SizedBox(height: 16,),
+              Text("Ratings : ${ratings}             Reviewer : ${reviewer}"),
+              Text(" "),
+              Text("Harga : ${price}"),
+              Text(" "),
+              Text("Sold : ${sold}"),
             ],
           ),
         ),

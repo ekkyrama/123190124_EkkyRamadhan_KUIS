@@ -12,108 +12,125 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage> {
   String username = "";
   String password = "";
-  bool isLoginSuccess = true;
+  bool isLoginSuccess = false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("MCU CAST"),
+          title: Text("MALABAR"),
+          backgroundColor: Colors.red,
         ),
-        body: Column(
-            children: [
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+            child: Column(children: [
+              _createImage(),
               _usernameField(),
               _passwordField(),
-              _loginButton(context)
-            ]
+              _loginButton(context),
+            ]),
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _createImage(){
+    return Container(
+      child: Image.network("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL_syfgoJjsUAkjlKHYCd3mMn3XAI7M_10rg&usqp=CAU"),
     );
   }
 
   Widget _usernameField() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextFormField(
         enabled: true,
-        onChanged: (value){
+        onChanged: (value) {
           username = value;
         },
         decoration: InputDecoration(
           hintText: 'Username',
           contentPadding: const EdgeInsets.all(8.0),
-          border: const OutlineInputBorder(
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: Colors.blue),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-            borderSide:  BorderSide(color: (isLoginSuccess) ? Colors.red : Colors.red),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderSide:
+            BorderSide(color: (isLoginSuccess) ? Colors.blue : Colors.red),
           ),
         ),
       ),
     );
   }
 
-  Widget _passwordField(){
+  Widget _passwordField() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextFormField(
         enabled: true,
-        onChanged: (value){
+        obscureText: true,
+        onChanged: (value) {
           password = value;
         },
-        obscureText: true,
         decoration: InputDecoration(
           hintText: 'Password',
-          contentPadding: EdgeInsets.all(8.0),
-          border: const OutlineInputBorder(
+          contentPadding: const EdgeInsets.all(8.0),
+          border: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            borderSide: BorderSide(color: Colors.red),
+            borderSide: BorderSide(color: Colors.blue),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-            borderSide:  BorderSide(color: (isLoginSuccess) ? Colors.red : Colors.red),
+            borderRadius: BorderRadius.all(Radius.circular(8.0)),
+            borderSide:
+            BorderSide(color: (isLoginSuccess) ? Colors.blue : Colors.red),
           ),
         ),
       ),
     );
   }
 
-  Widget _loginButton(BuildContext context){
+  Widget _loginButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: (isLoginSuccess) ? Colors.blue : Colors.red, // background
+          onPrimary: Colors.white, // foreground
+        ),
         onPressed: () {
           String text = "";
-          if(username == "Ekik" && password == "123" ){
+          if (username == "Ekik" && password == "123") {
             setState(() {
               text = "Login Success";
               isLoginSuccess = true;
             });
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) { return HomePage(username: username); }));
+            _loginProcess(context);
           } else {
             setState(() {
               text = "Login Failed";
               isLoginSuccess = false;
             });
           }
-
+          print("isLoginSuccess : $isLoginSuccess");
           SnackBar snackBar = SnackBar(
             content: Text(text),
           );
-
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: const Text('Login'),
-        style: ElevatedButton.styleFrom(
-            primary: (isLoginSuccess) ? Colors.red : Colors.red,
-            onPrimary: Colors.white
-        ),
       ),
     );
   }
 
+  void _loginProcess(BuildContext context){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return HomePage(username: '',);
+    }));
+  }
 }
